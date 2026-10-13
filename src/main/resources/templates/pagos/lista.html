@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Pagos')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container-fluid px-4 py-2">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="fw-bold mb-0">Registro de Pagos</h3>
+                <p class="text-muted small mb-0">Transacciones y liquidaciones de reservaciones</p>
+            </div>
+            <a th:href="@{/vista/pagos/nuevo}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Registrar Pago
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Reservación</th>
+                                <th>Referencia</th>
+                                <th>Monto ($)</th>
+                                <th>Método</th>
+                                <th>Estado</th>
+                                <th>Fecha Pago</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(pagos)}">
+                                <td colspan="8" class="text-center py-4 text-muted">
+                                    <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                    No hay pagos registrados.
+                                </td>
+                            </tr>
+                            <tr th:each="p : ${pagos}">
+                                <td class="fw-bold" th:text="'#' + ${p.idPago}">#1</td>
+                                <td>
+                                    <span class="fw-semibold text-primary" th:text="${p.reservacion != null ? p.reservacion.codigoReserva : 'N/A'}">COD-123</span>
+                                    <small class="text-muted d-block" th:if="${p.reservacion != null}" th:text="'Reserva #' + ${p.reservacion.idReservacion} + ' (Total: $' + ${p.reservacion.precioTotal} + ')'"></small>
+                                </td>
+                                <td><span class="font-monospace text-secondary" th:text="${p.referenciaPago}">TXN-001</span></td>
+                                <td class="fw-bold text-success fs-6" th:text="'$' + ${p.monto}">$1200.00</td>
+                                <td><span class="badge bg-light text-dark border text-capitalize" th:text="${p.metodo}">tarjeta</span></td>
+                                <td>
+                                    <span th:class="'badge border text-capitalize ' + 
+                                          (${p.estado.name() == 'aceptado'} ? 'bg-success-subtle text-success' : 
+                                          (${p.estado.name() == 'pendiente'} ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger'))"
+                                          th:text="${p.estado}">aceptado</span>
+                                </td>
+                                <td><small class="text-muted" th:text="${p.fechaPago}">2026-10-13</small></td>
+                                <td class="text-end">
+                                    <form th:action="@{/vista/pagos/{id}/eliminar(id=${p.idPago})}" method="post" class="d-inline"
+                                          onsubmit="return confirm('¿Está seguro de eliminar este pago?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

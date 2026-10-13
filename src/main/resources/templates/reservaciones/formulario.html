@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${reservacion.idReservacion != null ? 'Editar Reservación' : 'Nueva Reservación'})}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 800px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0" th:text="${reservacion.idReservacion != null ? 'Editar Reservación #' + reservacion.idReservacion : 'Crear Nueva Reservación'}">Formulario Reservación</h3>
+            <a th:href="@{/vista/reservaciones}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/reservaciones/guardar}" th:object="${reservacion}" method="post">
+                <input type="hidden" th:field="*{idReservacion}"/>
+
+                <div class="row g-3">
+                    <div class="col-md-6" th:if="${reservacion.idReservacion == null}">
+                        <label class="form-label fw-semibold">Unidad Rentable *</label>
+                        <select th:field="*{propiedad.idUnidad}" class="form-select" required>
+                            <option value="">-- Seleccionar Propiedad --</option>
+                            <option th:each="u : ${unidades}" th:value="${u.idUnidad}" th:text="'#' + ${u.idUnidad} + ' - ' + ${u.titulo} + ' (Cap. ' + ${u.capacidadPersonas} + 'p - $' + ${u.precioNoche} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6" th:if="${reservacion.idReservacion == null}">
+                        <label class="form-label fw-semibold">Huésped / Cliente *</label>
+                        <select th:field="*{cliente.idUsuario}" class="form-select" required>
+                            <option value="">-- Seleccionar Huésped --</option>
+                            <option th:each="c : ${clientes}" th:value="${c.idUsuario}" th:text="${c.username} + ' (' + ${c.email} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fecha de Entrada *</label>
+                        <input type="date" th:field="*{fechaEntrada}" class="form-control" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fecha de Salida *</label>
+                        <input type="date" th:field="*{fechaSalida}" class="form-control" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Número de Huéspedes *</label>
+                        <input type="number" th:field="*{numeroHuespedes}" class="form-control" min="1" required/>
+                    </div>
+
+                    <div class="col-md-6" th:if="${reservacion.idReservacion != null}">
+                        <label class="form-label fw-semibold">Estado de la Reservación</label>
+                        <select th:field="*{estado}" class="form-select">
+                            <option th:each="est : ${estados}" th:value="${est}" th:text="${est}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Notas del Huésped / Requerimientos</label>
+                        <textarea th:field="*{notas}" class="form-control" rows="2" placeholder="Hora de llegada, requerimientos especiales..."></textarea>
+                    </div>
+
+                    <div class="col-12" th:if="${reservacion.idReservacion != null}">
+                        <label class="form-label fw-semibold">Comentarios Internos</label>
+                        <input type="text" th:field="*{comentario}" class="form-control" placeholder="Anotaciones administrativas..."/>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/reservaciones}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Guardar Reservación
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

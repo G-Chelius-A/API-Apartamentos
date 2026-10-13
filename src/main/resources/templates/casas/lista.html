@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Casas')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container-fluid px-4 py-2">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="fw-bold mb-0">Casas Registradas</h3>
+                <p class="text-muted small mb-0">Detalles arquitectónicos de las unidades rentables tipo casa</p>
+            </div>
+            <a th:href="@{/vista/casas/nueva}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Registrar Casa
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID Casa / Unidad</th>
+                                <th>Unidad Rentable</th>
+                                <th>Habitaciones</th>
+                                <th>Pisos</th>
+                                <th>Baños</th>
+                                <th>Metros Cuadrados</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(casas)}">
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                    No hay casas registradas aún.
+                                </td>
+                            </tr>
+                            <tr th:each="c : ${casas}">
+                                <td class="fw-bold" th:text="'#' + ${c.idCasa}">#1</td>
+                                <td>
+                                    <div class="fw-semibold" th:text="${c.unidad != null ? c.unidad.titulo : 'Unidad #' + c.idCasa}">Apartamento Centro</div>
+                                    <small class="text-muted" th:text="${c.unidad != null ? c.unidad.ciudad : ''}"></small>
+                                </td>
+                                <td><span class="badge bg-light text-dark border" th:text="${c.numeroHabitaciones} + ' hab.'">3 hab.</span></td>
+                                <td><span th:text="${c.numeroPisos}">2</span></td>
+                                <td><span th:text="${c.numeroBanos}">2</span></td>
+                                <td class="fw-semibold" th:text="${c.metrosCuadrados} + ' m²'">120 m²</td>
+                                <td class="text-end">
+                                    <a th:href="@{/vista/casas/{id}/editar(id=${c.idCasa})}" class="btn btn-sm btn-outline-secondary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form th:action="@{/vista/casas/{id}/eliminar(id=${c.idCasa})}" method="post" class="d-inline"
+                                          onsubmit="return confirm('¿Está seguro de eliminar los datos de esta casa?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

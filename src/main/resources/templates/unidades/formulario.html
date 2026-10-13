@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${unidad.idUnidad != null ? 'Editar Unidad' : 'Nueva Unidad'})}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 900px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0" th:text="${unidad.idUnidad != null ? 'Editar Unidad Rentable #' + unidad.idUnidad : 'Nueva Unidad Rentable'}">Formulario Unidad</h3>
+            <a th:href="@{/vista/unidades}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/unidades/guardar}" th:object="${unidad}" method="post">
+                <input type="hidden" th:field="*{idUnidad}"/>
+
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label fw-semibold">Título de la Unidad *</label>
+                        <input type="text" th:field="*{titulo}" class="form-control" placeholder="Ej. Apartamento Céntrico con Balcón" required maxlength="150"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Propietario *</label>
+                        <select th:field="*{propietario.idUsuario}" class="form-select" required>
+                            <option value="">-- Seleccionar Usuario --</option>
+                            <option th:each="usr : ${usuarios}" th:value="${usr.idUsuario}" th:text="${usr.username} + ' (' + ${usr.email} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Descripción Detallada *</label>
+                        <textarea th:field="*{descripcion}" class="form-control" rows="3" placeholder="Describe el alojamiento, amenidades y ubicación..." required></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Dirección *</label>
+                        <input type="text" th:field="*{direccion}" class="form-control" placeholder="Calle, número, colonia" required/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Ciudad *</label>
+                        <input type="text" th:field="*{ciudad}" class="form-control" required/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Estado / Entidad *</label>
+                        <input type="text" th:field="*{entidad}" class="form-control" required/>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Código Postal *</label>
+                        <input type="text" th:field="*{codigoPostal}" class="form-control" maxlength="10" required/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">País *</label>
+                        <input type="text" th:field="*{pais}" class="form-control" required/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Capacidad Personas *</label>
+                        <input type="number" th:field="*{capacidadPersonas}" class="form-control" min="1" required/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Precio por Noche ($) *</label>
+                        <input type="number" step="0.01" th:field="*{precioNoche}" class="form-control" min="0" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Comodidades *</label>
+                        <textarea th:field="*{comodidades}" class="form-control" rows="2" placeholder="WiFi, Cocina equipada, TV, Estacionamiento..." required></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Normas de la Unidad *</label>
+                        <textarea th:field="*{normasUnidad}" class="form-control" rows="2" placeholder="No fumar, no fiestas, horario de silencio..." required></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" th:field="*{petFriendly}" id="petFriendly">
+                            <label class="form-check-label fw-semibold" for="petFriendly">Acepta Mascotas (Pet Friendly)</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" th:field="*{accesibilidad}" id="accesibilidad">
+                            <label class="form-check-label fw-semibold" for="accesibilidad">Cuenta con Accesibilidad para Personas con Movilidad Reducida</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/unidades}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Guardar Unidad
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

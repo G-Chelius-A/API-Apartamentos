@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Redactar Mensaje')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 650px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">Redactar Mensaje</h3>
+            <a th:href="@{/vista/mensajes}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/mensajes/guardar}" th:object="${mensaje}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Remitente *</label>
+                        <select th:field="*{remitente.idUsuario}" class="form-select" required>
+                            <option value="">-- Seleccionar Remitente --</option>
+                            <option th:each="u : ${usuarios}" th:value="${u.idUsuario}" th:text="${u.username} + ' (' + ${u.email} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Destinatario *</label>
+                        <select th:field="*{destinatario.idUsuario}" class="form-select" required>
+                            <option value="">-- Seleccionar Destinatario --</option>
+                            <option th:each="u : ${usuarios}" th:value="${u.idUsuario}" th:text="${u.username} + ' (' + ${u.email} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Reservación Relacionada *</label>
+                        <select th:field="*{reservacion.idReservacion}" class="form-select" required>
+                            <option value="">-- Seleccionar Reservación --</option>
+                            <option th:each="r : ${reservaciones}" th:value="${r.idReservacion}" 
+                                    th:text="'#' + ${r.idReservacion} + ' - ' + ${r.codigoReserva} + ' (' + (r.propiedad != null ? r.propiedad.titulo : '') + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Asunto del Mensaje *</label>
+                        <input type="text" th:field="*{asunto}" class="form-control" placeholder="Ej. Horario de entrega de llaves" required maxlength="200"/>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Contenido del Mensaje *</label>
+                        <textarea th:field="*{contenido}" class="form-control" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/mensajes}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-send me-1"></i> Enviar Mensaje
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

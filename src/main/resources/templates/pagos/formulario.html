@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Registrar Pago')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 650px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">Registrar Pago</h3>
+            <a th:href="@{/vista/pagos}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/pagos/guardar}" th:object="${pago}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Reservación Correspondiente *</label>
+                        <select th:field="*{reservacion.idReservacion}" class="form-select" required>
+                            <option value="">-- Seleccionar Reservación --</option>
+                            <option th:each="r : ${reservaciones}" th:value="${r.idReservacion}" 
+                                    th:text="'#' + ${r.idReservacion} + ' - ' + ${r.codigoReserva} + ' (' + ${r.cliente.username} + ' - Total: $' + ${r.precioTotal} + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Monto a Pagar ($) *</label>
+                        <input type="number" step="0.01" th:field="*{monto}" class="form-control" min="0.01" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Método de Pago *</label>
+                        <select th:field="*{metodo}" class="form-select" required>
+                            <option th:each="m : ${metodos}" th:value="${m}" th:text="${m}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Referencia de Pago / Transacción *</label>
+                        <input type="text" th:field="*{referenciaPago}" class="form-control" placeholder="TXN-XXXXX" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Estado del Pago *</label>
+                        <select th:field="*{estado}" class="form-select" required>
+                            <option th:each="e : ${estados}" th:value="${e}" th:text="${e}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Detalles / Datos del Pago *</label>
+                        <textarea th:field="*{datosPago}" class="form-control" rows="2" placeholder="Detalles de la tarjeta, banco, o voucher..." required></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/pagos}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-credit-card me-1"></i> Procesar Pago
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

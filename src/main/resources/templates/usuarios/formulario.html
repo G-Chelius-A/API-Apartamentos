@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${usuario.idUsuario != null ? 'Editar Usuario' : 'Nuevo Usuario'})}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 600px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0" th:text="${usuario.idUsuario != null ? 'Editar Usuario #' + usuario.idUsuario : 'Registrar Nuevo Usuario'}">Formulario Usuario</h3>
+            <a th:href="@{/vista/usuarios}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/usuarios/guardar}" th:object="${usuario}" method="post">
+                <input type="hidden" th:field="*{idUsuario}"/>
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Nombre de Usuario (Username) *</label>
+                        <input type="text" th:field="*{username}" class="form-control" placeholder="Ej. jperez_alquiler" required maxlength="50"/>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Correo Electrónico *</label>
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="correo@ejemplo.com" required maxlength="254"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Teléfono</label>
+                        <input type="tel" th:field="*{telefono}" class="form-control" placeholder="+52 55..." maxlength="20"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Estado de la Cuenta *</label>
+                        <select th:field="*{estado}" class="form-select" required>
+                            <option th:each="est : ${estados}" th:value="${est}" th:text="${est}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/usuarios}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Guardar Usuario
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Registrar Persona')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 650px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">Registrar Perfil de Persona</h3>
+            <a th:href="@{/vista/personas}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/personas/guardar}" th:object="${persona}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Cuenta de Usuario Asociada *</label>
+                        <select th:field="*{idUsuario}" class="form-select" required>
+                            <option value="">-- Seleccionar Usuario --</option>
+                            <option th:each="u : ${usuarios}" th:value="${u.idUsuario}" th:text="'#' + ${u.idUsuario} + ' - ' + ${u.username} + ' (' + ${u.email} + ')'"></option>
+                        </select>
+                        <small class="text-muted">El perfil se asocia 1 a 1 con la cuenta seleccionada.</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Nombre(s) *</label>
+                        <input type="text" th:field="*{nombre}" class="form-control" required maxlength="100"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Apellido(s) *</label>
+                        <input type="text" th:field="*{apellido}" class="form-control" required maxlength="100"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Documento de Identidad (INE/Pasaporte) *</label>
+                        <input type="text" th:field="*{documentoIdentidad}" class="form-control" required maxlength="30"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fecha de Nacimiento *</label>
+                        <input type="date" th:field="*{fechaNacimiento}" class="form-control" required/>
+                        <small class="text-muted">Debe ser mayor de 18 años.</small>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Dirección de Residencia *</label>
+                        <textarea th:field="*{direccion}" class="form-control" rows="2" required></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/personas}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Guardar Persona
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

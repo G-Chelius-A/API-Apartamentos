@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Escribir Reseña')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 650px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">Escribir Reseña</h3>
+            <a th:href="@{/vista/resenas}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <div class="alert alert-info py-2 small mb-3">
+                <i class="bi bi-info-circle-fill me-1"></i> Solo es posible reseñar reservaciones que se encuentren en estado <strong>completada</strong>.
+            </div>
+
+            <form th:action="@{/vista/resenas/guardar}" th:object="${resena}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Reservación Completada *</label>
+                        <select th:field="*{reservacion.idReservacion}" class="form-select" required>
+                            <option value="">-- Seleccionar Reservación --</option>
+                            <option th:each="r : ${reservaciones}" th:value="${r.idReservacion}" 
+                                    th:text="'#' + ${r.idReservacion} + ' - ' + ${r.codigoReserva} + ' (' + ${r.estado} + ' - ' + (r.propiedad != null ? r.propiedad.titulo : '') + ')'"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Calificación General (1 a 10) *</label>
+                        <input type="number" th:field="*{calificacionGeneral}" class="form-control" min="1" max="10" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Calificación Limpieza (1 a 10) *</label>
+                        <input type="number" th:field="*{calificacionLimpieza}" class="form-control" min="1" max="10" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Calificación Ubicación (1 a 10) *</label>
+                        <input type="number" th:field="*{calificacionUbicacion}" class="form-control" min="1" max="10" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Calificación Comunicación (1 a 10) *</label>
+                        <input type="number" th:field="*{calificacionComunicacion}" class="form-control" min="1" max="10" required/>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Comentario / Opinión de la Estancia</label>
+                        <textarea th:field="*{comentario}" class="form-control" rows="3" placeholder="Describe tu experiencia en la propiedad..." maxlength="1000"></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/resenas}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-star-fill me-1"></i> Publicar Reseña
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>

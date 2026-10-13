@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Agregar Imagen')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <div class="container py-2" style="max-width: 600px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">Agregar Imagen a Unidad</h3>
+            <a th:href="@{/vista/imagenes}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card p-4">
+            <form th:action="@{/vista/imagenes/guardar}" th:object="${imagen}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Unidad Rentable *</label>
+                        <select th:field="*{unidad.idUnidad}" class="form-select" required>
+                            <option value="">-- Seleccionar Unidad --</option>
+                            <option th:each="u : ${unidades}" th:value="${u.idUnidad}" th:text="'#' + ${u.idUnidad} + ' - ' + ${u.titulo}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">URL de la Imagen *</label>
+                        <input type="url" th:field="*{urlImagen}" class="form-control" placeholder="https://ejemplo.com/foto1.jpg" required maxlength="2048"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Orden de Visualización *</label>
+                        <input type="number" th:field="*{orden}" class="form-control" value="1" min="1" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Imagen Principal</label>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" th:field="*{esPrincipal}" id="esPrincipal">
+                            <label class="form-check-label fw-semibold" for="esPrincipal">Portada de la unidad</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <a th:href="@{/vista/imagenes}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-cloud-upload me-1"></i> Guardar Imagen
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: scripts}"></div>
+</body>
+</html>
