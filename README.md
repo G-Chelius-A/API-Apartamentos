@@ -425,21 +425,29 @@ Acceso principal desde el navegador: **`http://localhost:1501/vista`**
 ```
 src/main/java/com/blue/apartamentos/
 ├── controllers/
-│   ├── ApiExceptionHandler.java         # Manejador global de excepciones HTTP
-│   ├── CasaController.java              # API REST — casas
-│   ├── DisponibilidadController.java    # API REST — disponibilidad
-│   ├── HabitacionController.java        # API REST — habitaciones
-│   ├── MensajeController.java           # API REST — mensajes
-│   ├── OrganizacionController.java      # API REST — organizaciones
-│   ├── PagoController.java              # API REST — pagos
-│   ├── PersonaController.java           # API REST — personas
-│   ├── PropiedadImagenController.java   # API REST — imágenes de unidades
-│   ├── ReembolsoController.java         # API REST — reembolsos
-│   ├── ReporteController.java           # API REST — reportes
-│   ├── ResenaController.java            # API REST — reseñas
-│   ├── ReservacionController.java       # API REST — reservaciones
-│   ├── UnidadController.java            # API REST — unidades rentables
-│   └── UsuarioController.java           # API REST — usuarios
+│   ├── ApiExceptionHandler.java                  # Manejador global de excepciones HTTP
+│   ├── CasaController.java                       # API REST — casas
+│   ├── CasaHabitacionVistaController.java        # Vista Thymeleaf — casas y habitaciones
+│   ├── DisponibilidadController.java             # API REST — disponibilidad
+│   ├── DisponibilidadImagenVistaController.java  # Vista Thymeleaf — disponibilidad e imágenes
+│   ├── HabitacionController.java                 # API REST — habitaciones
+│   ├── HomeVistaController.java                  # Vista Thymeleaf — dashboard principal
+│   ├── MensajeController.java                    # API REST — mensajes
+│   ├── OrganizacionController.java               # API REST — organizaciones
+│   ├── PagoController.java                       # API REST — pagos
+│   ├── PagoReembolsoVistaController.java         # Vista Thymeleaf — pagos y reembolsos
+│   ├── PersonaController.java                    # API REST — personas
+│   ├── PropiedadImagenController.java            # API REST — imágenes de unidades
+│   ├── ReembolsoController.java                  # API REST — reembolsos
+│   ├── ReporteController.java                    # API REST — reportes
+│   ├── ResenaController.java                     # API REST — reseñas
+│   ├── ResenaMensajeVistaController.java         # Vista Thymeleaf — reseñas y mensajes
+│   ├── ReservacionController.java                # API REST — reservaciones
+│   ├── ReservacionVistaController.java           # Vista Thymeleaf — reservaciones
+│   ├── UnidadController.java                     # API REST — unidades rentables
+│   ├── UnidadVistaController.java                # Vista Thymeleaf — unidades rentables
+│   ├── UsuarioController.java                    # API REST — usuarios
+│   └── UsuarioPersonaOrgVistaController.java     # Vista Thymeleaf — usuarios, personas y organizaciones
 ├── models/
 │   ├── CasaModel.java
 │   ├── DisponibilidadModel.java
