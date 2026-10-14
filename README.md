@@ -2,6 +2,8 @@
 
 API REST y frontend Thymeleaf para la administración y alquiler de apartamentos, casas y habitaciones: gestión de unidades rentables, casas, habitaciones, disponibilidad, reservaciones, pagos, reembolsos, reseñas, mensajes, personas y organizaciones. Desarrollada con Spring Boot 4 y MySQL.
 
+![Diagrama](DIAGRAMA.png)
+
 ## Autor
 
 **Gerardo Yeray Chelius Altamirano |**  
@@ -484,3 +486,4 @@ src/main/java/com/blue/apartamentos/
 ```
 
 ---
+> DISCLAIMER: A partir del planteamiento original del proyecto, se potenció con diferentes herramientas generativas sin afectar la lógica original del mismo. Entre estos apartados radican estilos, uso complejo de anotaciones, JavaDocs a escala masiva, etc.

@@ -25,7 +25,7 @@
                         <select th:field="*{reservacion.idReservacion}" class="form-select" required>
                             <option value="">-- Seleccionar Reservación --</option>
                             <option th:each="r : ${reservaciones}" th:value="${r.idReservacion}" 
-                                    th:text="'#' + ${r.idReservacion} + ' - ' + ${r.codigoReserva} + ' (' + ${r.estado} + ' - ' + (r.propiedad != null ? r.propiedad.titulo : '') + ')'"></option>
+                                    th:text="${r.propiedad != null ? ('#' + r.idReservacion + ' - ' + r.codigoReserva + ' (' + r.estado + ' - ' + r.propiedad.titulo + ')') : ('#' + r.idReservacion + ' - ' + r.codigoReserva + ' (' + r.estado + ')') }"></option>
                         </select>
                     </div>
 

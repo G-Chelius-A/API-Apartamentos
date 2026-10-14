@@ -11,6 +11,9 @@ import com.blue.apartamentos.models.ReembolsoModel;
 
 @Repository
 public interface IReembolsoRepository extends JpaRepository<ReembolsoModel, Long> {
+    @org.springframework.data.jpa.repository.Query("SELECT r FROM ReembolsoModel r LEFT JOIN FETCH r.pago p LEFT JOIN FETCH p.reservacion res LEFT JOIN FETCH res.propiedad")
+    ArrayList<ReembolsoModel> findAllWithPagoAndReservacion();
+
     ArrayList<ReembolsoModel> findByPago_IdPago(Long idPago);
     ArrayList<ReembolsoModel> findByPago_Reservacion_Cliente_IdUsuario(Long idUsuario);
     ArrayList<ReembolsoModel> findByFechaReembolso(LocalDateTime fechaReembolso);

@@ -9,6 +9,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 
+import org.springframework.data.domain.Persistable;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Transient;
+
 /**
  * Entidad JPA que representa los datos extendidos de una casa dentro del sistema de alquiler.
  *
@@ -24,7 +29,10 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "Casas")
-public class CasaModel {
+public class CasaModel implements Persistable<Long> {
+
+    @Transient
+    private boolean isNew = true;
 
     /**
      * Identificador único de la casa. Coincide con el identificador de la
@@ -38,7 +46,9 @@ public class CasaModel {
      * Relación {@code @OneToOne} con clave compartida ({@code @MapsId}).
      * La columna de unión es {@code id_casa}.
      */
-    @OneToOne @MapsId @JoinColumn(name = "id_casa") private UnidadRentableModel unidad;
+    @OneToOne @MapsId @JoinColumn(name = "id_casa")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"disponibilidades"})
+    private UnidadRentableModel unidad;
 
     /**
      * Número total de habitaciones de la casa.
@@ -156,4 +166,20 @@ public class CasaModel {
      * @param value metros cuadrados a asignar
      */
     public void setMetrosCuadrados(BigDecimal value) { metrosCuadrados = value; }
+
+    @Override
+    public Long getId() {
+        return idCasa;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    @PrePersist
+    @PostLoad
+    void markNotNew() {
+        this.isNew = false;
+    }
 }

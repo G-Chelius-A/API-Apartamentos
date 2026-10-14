@@ -13,6 +13,9 @@ import com.blue.apartamentos.models.ReservacionModel;
 
 @Repository
 public interface IReservacionRepository extends JpaRepository<ReservacionModel, Long> {
+    @Query("SELECT r FROM ReservacionModel r LEFT JOIN FETCH r.propiedad LEFT JOIN FETCH r.cliente")
+    ArrayList<ReservacionModel> findAllWithPropiedadAndCliente();
+
     ArrayList<ReservacionModel> findByCliente_IdUsuario(Long idUsuario);
     ArrayList<ReservacionModel> findByPropiedad_IdUnidad(Long idUnidad);
     ArrayList<ReservacionModel> findByFechaEntrada(LocalDate fechaEntrada);

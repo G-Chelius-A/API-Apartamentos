@@ -36,8 +36,8 @@ public class ReservacionService {
     @Autowired
     private IPagoRepository pagoRepository; // solo se usa en guardarReservacionConPago
 
-    // Retorna todas las reservaciones del sistema
-    public ArrayList<ReservacionModel> obtenerReservaciones() { return (ArrayList<ReservacionModel>) reservacionRepository.findAll(); }
+    // Retorna todas las reservaciones del sistema con su propiedad y cliente cargados
+    public ArrayList<ReservacionModel> obtenerReservaciones() { return reservacionRepository.findAllWithPropiedadAndCliente(); }
 
     // Guarda una nueva reservación; valida disponibilidad, capacidad, traslapes y calcula el precio
     @Transactional

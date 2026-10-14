@@ -8,6 +8,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Persistable;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Transient;
+
 /**
  * Entidad JPA que representa el perfil de una organización o persona jurídica
  * asociada a un {@link UsuarioModel usuario}.
@@ -25,7 +30,10 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "Organizaciones")
-public class OrganizacionModel {
+public class OrganizacionModel implements Persistable<Long> {
+
+    @Transient
+    private boolean isNew = true;
 
     /**
      * Identificador único de la organización. Coincide con el {@code id_usuario} del
@@ -184,4 +192,20 @@ public class OrganizacionModel {
      * @param fechaConstitucion fecha de constitución a asignar
      */
     public void setFechaConstitucion(LocalDate fechaConstitucion) { this.fechaConstitucion = fechaConstitucion; }
+
+    @Override
+    public Long getId() {
+        return idUsuario;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    @PrePersist
+    @PostLoad
+    void markNotNew() {
+        this.isNew = false;
+    }
 }

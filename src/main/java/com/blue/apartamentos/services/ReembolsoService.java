@@ -24,8 +24,8 @@ public class ReembolsoService {
     @Autowired
     private IPagoRepository pagoRepository; // para acceder al pago origen y actualizar su estado al procesar
 
-    // Retorna todos los reembolsos del sistema
-    public ArrayList<ReembolsoModel> obtenerReembolsos() { return (ArrayList<ReembolsoModel>) reembolsoRepository.findAll(); }
+    // Retorna todos los reembolsos del sistema con su pago y reservación cargados
+    public ArrayList<ReembolsoModel> obtenerReembolsos() { return reembolsoRepository.findAllWithPagoAndReservacion(); }
 
     // Guarda un reembolso directo; valida el pago, la reservación cancelada y el monto disponible
     @Transactional

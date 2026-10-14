@@ -18,8 +18,8 @@ public class HabitacionService {
     @Autowired
     private ICasaRepository casaRepository; // para verificar que la casa exista antes de guardar
 
-    // Retorna todas las habitaciones registradas
-    public ArrayList<HabitacionModel> obtenerHabitaciones() { return (ArrayList<HabitacionModel>) habitacionRepository.findAll(); }
+    // Retorna todas las habitaciones registradas con su casa y unidad cargadas
+    public ArrayList<HabitacionModel> obtenerHabitaciones() { return habitacionRepository.findAllWithCasaAndUnidad(); }
 
     // Guarda una habitación; valida que la casa asociada exista en BD
     public HabitacionModel guardarHabitacion(HabitacionModel habitacion) {

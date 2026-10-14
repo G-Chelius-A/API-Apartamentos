@@ -18,9 +18,9 @@ public class CasaService {
     @Autowired
     private IUnidadRentableRepository unidadRentableRepository; // para resolver/crear la unidad asociada
 
-    // Retorna todas las casas registradas en el sistema
+    // Retorna todas las casas registradas en el sistema con su unidad cargada
     public ArrayList<CasaModel> obtenerCasas() {
-        return (ArrayList<CasaModel>) casaRepository.findAll();
+        return casaRepository.findAllWithUnidad();
     }
 
     // Guarda una nueva casa; si la unidad no tiene ID la crea, si ya existe la busca y valida

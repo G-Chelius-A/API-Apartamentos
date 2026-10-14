@@ -40,6 +40,9 @@ public class DisponibilidadService {
         disponibilidad.setFechaInicio(request.getFechaInicio());
         disponibilidad.setFechaFin(request.getFechaFin());
         disponibilidad.setPrecioEspecial(request.getPrecioEspecial());
+        if (request.getDisponible() != null) {
+            disponibilidad.setDisponible(request.getDisponible());
+        }
         prepararDisponibilidad(disponibilidad);
         return disponibilidadRepository.save(disponibilidad);
     }

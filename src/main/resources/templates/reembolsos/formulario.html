@@ -25,7 +25,7 @@
                         <select th:field="*{pago.idPago}" class="form-select" required>
                             <option value="">-- Seleccionar Pago --</option>
                             <option th:each="p : ${pagos}" th:value="${p.idPago}" 
-                                    th:text="'Pago #' + ${p.idPago} + ' ($' + ${p.monto} + ' - ' + ${p.estado} + ')' + (p.reservacion != null ? ' - Reserva ' + p.reservacion.codigoReserva + ' (' + p.reservacion.estado + ')' : '')"></option>
+                                    th:text="${p.reservacion != null ? ('Pago #' + p.idPago + ' ($' + p.monto + ' - ' + p.estado + ') - Reserva ' + p.reservacion.codigoReserva + ' (' + p.reservacion.estado + ')') : ('Pago #' + p.idPago + ' ($' + p.monto + ' - ' + p.estado + ')') }"></option>
                         </select>
                     </div>
 

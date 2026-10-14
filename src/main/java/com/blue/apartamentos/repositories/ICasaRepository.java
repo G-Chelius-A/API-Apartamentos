@@ -9,6 +9,9 @@ import com.blue.apartamentos.models.CasaModel;
 
 @Repository
 public interface ICasaRepository extends JpaRepository<CasaModel, Long> {
+    @org.springframework.data.jpa.repository.Query("SELECT c FROM CasaModel c LEFT JOIN FETCH c.unidad")
+    ArrayList<CasaModel> findAllWithUnidad();
+
     ArrayList<CasaModel> findByNumeroHabitaciones(Integer numeroHabitaciones);
     ArrayList<CasaModel> findByNumeroPisos(Integer numeroPisos);
 }

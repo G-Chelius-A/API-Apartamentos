@@ -22,8 +22,8 @@ public class PagoService {
     @Autowired
     private IReservacionRepository reservacionRepository; // para validar el total y cambiar estado de la reservación
 
-    // Retorna todos los pagos del sistema
-    public ArrayList<PagoModel> obtenerPagos() { return (ArrayList<PagoModel>) pagoRepository.findAll(); }
+    // Retorna todos los pagos del sistema con su reservación cargada
+    public ArrayList<PagoModel> obtenerPagos() { return pagoRepository.findAllWithReservacion(); }
 
     // Guarda un nuevo pago; si queda aceptado y la reservación estaba pendiente, la confirma automáticamente
     @Transactional

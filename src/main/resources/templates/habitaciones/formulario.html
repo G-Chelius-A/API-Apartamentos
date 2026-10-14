@@ -22,7 +22,7 @@
                         <label class="form-label fw-semibold">Casa a la que Pertenece *</label>
                         <select th:field="*{casa.idCasa}" class="form-select" required>
                             <option value="">-- Seleccionar Casa --</option>
-                            <option th:each="c : ${casas}" th:value="${c.idCasa}" th:text="'Casa #' + ${c.idCasa} + (c.unidad != null ? ' - ' + c.unidad.titulo : '')"></option>
+                            <option th:each="c : ${casas}" th:value="${c.idCasa}" th:text="${c.unidad != null ? ('Casa #' + c.idCasa + ' - ' + c.unidad.titulo) : ('Casa #' + c.idCasa)}"></option>
                         </select>
                     </div>
 
